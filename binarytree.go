@@ -7,7 +7,7 @@ type TreeNode struct {
 	Right *TreeNode
 }
 
-// Binarytree generates TreeNode from []int
+// Binarytree generates *TreeNode
 func Binarytree(vals []int) *TreeNode {
 	if len(vals) == 0 {
 		return nil
