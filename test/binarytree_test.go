@@ -6,8 +6,8 @@ import (
 	"github.com/seihmd/leetcodeutil"
 )
 
-func TestBinarytree(t *testing.T) {
-	tn := leetcodeutil.Binarytree([]int{1, 2, 3, 4, 5, 6, 7, 8})
+func TestBinaryTree(t *testing.T) {
+	tn := leetcodeutil.BinaryTree([]int{1, 2, 3, 4, 5, 6, 7, 8})
 
 	tests := [][]int{
 		[]int{tn.Val, 1},
@@ -28,7 +28,7 @@ func TestBinarytree(t *testing.T) {
 }
 
 func TestEmptyBinaryTree(t *testing.T) {
-	tn := leetcodeutil.Binarytree([]int{})
+	tn := leetcodeutil.BinaryTree([]int{})
 	if tn != nil {
 		t.Error("TreeNode should be nil")
 	}

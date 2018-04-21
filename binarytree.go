@@ -7,8 +7,8 @@ type TreeNode struct {
 	Right *TreeNode
 }
 
-// Binarytree generates *TreeNode
-func Binarytree(vals []int) *TreeNode {
+// BinaryTree generates *TreeNode
+func BinaryTree(vals []int) *TreeNode {
 	if len(vals) == 0 {
 		return nil
 	}
