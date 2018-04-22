@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-var matrixRowPat = `\[([0-9]+((,[0-9])+)?)?\]`
+var matrixRowPat = `\[([0-9+]+((,[0-9]+)+)?)?\]`
 var matrixInputPat = regexp.MustCompile(`^\[(` + matrixRowPat + `)?(,` + matrixRowPat + `)*?\]$`)
 
 // Matrix generates [][]int from string like "[[1,2,3],[4,5,6]]"
