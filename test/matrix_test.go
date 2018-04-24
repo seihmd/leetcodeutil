@@ -38,7 +38,7 @@ func TestMatrix(t *testing.T) {
 func TestInvalidInput(t *testing.T) {
 	tests := []string{"", "[", "]", "[[]", "[]]", "[1]", "[1,2]", "[[1,2, 3]]", "[[1], [2]]"}
 	for _, test := range tests {
-		failIfNoPanic(test, t)
+		failIfMatrixNoPanic(test, t)
 	}
 }
 
@@ -49,11 +49,11 @@ func TestInvalidMatrix(t *testing.T) {
 		"[[],[1]]",
 	}
 	for _, test := range tests {
-		failIfNoPanic(test, t)
+		failIfMatrixNoPanic(test, t)
 	}
 }
 
-func failIfNoPanic(s string, t *testing.T) {
+func failIfMatrixNoPanic(s string, t *testing.T) {
 	defer func() {
 		if r := recover(); r == nil {
 			t.Fail()

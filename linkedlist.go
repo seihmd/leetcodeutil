@@ -32,6 +32,9 @@ func LinkedList(vals []int) *ListNode {
 }
 
 func (ln *ListNode) String() (r string) {
+	if ln == nil {
+		return fmt.Sprint(nil)
+	}
 	c := ln
 	for c != nil {
 		r += strconv.Itoa(c.Val) + " "
@@ -43,9 +46,5 @@ func (ln *ListNode) String() (r string) {
 
 // Print outputs *ListNode.String()
 func (ln *ListNode) Print() {
-	if ln == nil {
-		fmt.Println(nil)
-		return
-	}
-	fmt.Println(ln.String())
+	fmt.Println(ln)
 }

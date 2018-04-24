@@ -35,8 +35,8 @@ func TestLinkedList(t *testing.T) {
 
 func TestEmptyLinkedListString(t *testing.T) {
 	l := leetcodeutil.LinkedList(nil)
-	if l.String() != "" {
-		t.Error("String should be empty")
+	if l.String() != "<nil>" {
+		t.Fail()
 	}
 }
 
