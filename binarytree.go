@@ -14,7 +14,7 @@ type TreeNode struct {
 	Right *TreeNode
 }
 
-const treeNodePat = "([0-9]+|null)"
+const treeNodePat = "(-?[0-9]+|null)"
 
 var binarytreeInputPat = regexp.MustCompile(`^\[(` + treeNodePat + `((,` + treeNodePat + `)+)?)?\]$`)
 

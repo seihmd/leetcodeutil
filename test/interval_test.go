@@ -14,9 +14,12 @@ func TestIntervals(t *testing.T) {
 	}
 	tests := []testdata{
 		{"[[1,2]]", "[{1 2}]"},
+		{"[[-2,-1]]", "[{-2 -1}]"},
 		{"[[2,2]]", "[{2 2}]"},
+		{"[[-20,-11]]", "[{-20 -11}]"},
 		{"[[12,34]]", "[{12 34}]"},
 		{"[[1,2],[3,4]]", "[{1 2} {3 4}]"},
+		{"[[-11,5],[-3,4]]", "[{-11 5} {-3 4}]"},
 		{"[[12,34],[56,78]]", "[{12 34} {56 78}]"},
 		{"[[11,12],[21,22],[31,32]]", "[{11 12} {21 22} {31 32}]"},
 	}
@@ -31,7 +34,10 @@ func TestIntervals(t *testing.T) {
 }
 
 func TestInvalidIntervalsInput(t *testing.T) {
-	tests := []string{"", "[", "]", "[[]", "[]]", "[1]", "[[1]]", "[1,2]", "[[1, 2]]", "[[1,2],[1]]"}
+	tests := []string{
+		"", "[", "]", "[[]", "[]]",
+		"[1]", "[[1]]", "[1,2]", "[[1, 2]]", "[[1,2],[1]]",
+		"[[-]]", "[[-1]]", "[[-,1]]", "[[1,-]]"}
 	for _, test := range tests {
 		failIfIntervalsNoPanic(test, t)
 	}
@@ -40,6 +46,8 @@ func TestInvalidIntervalsInput(t *testing.T) {
 func TestInvalidIntervals(t *testing.T) {
 	tests := []string{
 		"[[2,1]]",
+		"[[-1,-2]]",
+		"[[2,-1]]",
 	}
 	for _, test := range tests {
 		failIfIntervalsNoPanic(test, t)

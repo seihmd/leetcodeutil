@@ -11,7 +11,7 @@ type Interval struct {
 	End   int
 }
 
-var intervalPat = `\[[0-9]+,[0-9]+\]`
+var intervalPat = `\[-?[0-9]+,-?[0-9]+\]`
 var intervalsRegexp = regexp.MustCompile(`^\[` + intervalPat + `(,` + intervalPat + `)*?\]$`)
 
 // Intervals generates []Interval

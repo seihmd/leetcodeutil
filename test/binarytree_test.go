@@ -7,17 +7,18 @@ import (
 )
 
 func TestBinaryTree(t *testing.T) {
-	tn := leetcodeutil.BinaryTree("[1,2,3,4,5,6,7,8]")
+	tn := leetcodeutil.BinaryTree("[-5,4,8,-11,null,13,-4,7,2,null,null,1]")
 
 	tests := [][]int{
-		[]int{tn.Val, 1},
-		[]int{tn.Left.Val, 2},
-		[]int{tn.Right.Val, 3},
-		[]int{tn.Left.Left.Val, 4},
-		[]int{tn.Left.Right.Val, 5},
-		[]int{tn.Right.Left.Val, 6},
-		[]int{tn.Right.Right.Val, 7},
-		[]int{tn.Left.Left.Left.Val, 8},
+		[]int{tn.Val, -5},
+		[]int{tn.Left.Val, 4},
+		[]int{tn.Right.Val, 8},
+		[]int{tn.Left.Left.Val, -11},
+		[]int{tn.Right.Left.Val, 13},
+		[]int{tn.Right.Right.Val, -4},
+		[]int{tn.Left.Left.Left.Val, 7},
+		[]int{tn.Left.Left.Right.Val, 2},
+		[]int{tn.Right.Left.Left.Val, 1},
 	}
 
 	for _, test := range tests {
@@ -25,10 +26,8 @@ func TestBinaryTree(t *testing.T) {
 			t.Errorf("TreeNode Val expect: %d, actual: %d", test[1], test[0])
 		}
 	}
-
-	tn = leetcodeutil.BinaryTree("[1,null,2]")
-	if tn.Val != 1 || tn.Left != nil || tn.Right.Val != 2 {
-		t.Fail()
+	if tn.Left.Right != nil || tn.Right.Left.Right != nil {
+		t.Error("node should be nil")
 	}
 }
 
@@ -62,6 +61,7 @@ func TestString(t *testing.T) {
 		testdata{"[1]", "[1]"},
 		testdata{"[1,2,3]", "[1,2,3]"},
 		testdata{"[1,2,3,null]", "[1,2,3]"},
+		testdata{"[-1,2,-3]", "[-1,2,-3]"},
 		testdata{"[5,4,8,11,null,13,4,7,2,null,null,1]", "[5,4,8,11,null,13,4,7,2,null,null,1]"},
 	}
 	for _, test := range tests {
