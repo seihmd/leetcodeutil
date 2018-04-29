@@ -42,10 +42,20 @@ func BinaryTree(input string) *TreeNode {
 		m[i] = tn
 		if i == 0 {
 			continue
+		} else if tn == nil {
+			continue
 		} else if i%2 == 0 {
-			m[(i-2)/2].Right = tn
+			parent := m[(i-2)/2]
+			if parent == nil {
+				panic(fmt.Sprintf("parent of %dth node is nil", i))
+			}
+			parent.Right = tn
 		} else {
-			m[(i-1)/2].Left = tn
+			parent := m[(i-1)/2]
+			if parent == nil {
+				panic(fmt.Sprintf("parent of %dth node is nil", i))
+			}
+			parent.Left = tn
 		}
 	}
 	return m[0]
