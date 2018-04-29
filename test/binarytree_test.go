@@ -56,12 +56,13 @@ func TestString(t *testing.T) {
 		input  string
 		expect string
 	}
-
 	tests := []testdata{
-		testdata{"[]", "<nil>"},
-		testdata{"[1]", "Val: 1, Left: <nil>, Right: <nil>"},
-		testdata{"[1,2]", "Val: 1, Left: 2, Right: <nil>"},
-		testdata{"[1,2,3]", "Val: 1, Left: 2, Right: 3"},
+		testdata{"[]", "[]"},
+		testdata{"[null]", "[]"},
+		testdata{"[1]", "[1]"},
+		testdata{"[1,2,3]", "[1,2,3]"},
+		testdata{"[1,2,3,null]", "[1,2,3]"},
+		testdata{"[5,4,8,11,null,13,4,7,2,null,null,1]", "[5,4,8,11,null,13,4,7,2,null,null,1]"},
 	}
 	for _, test := range tests {
 		actual := leetcodeutil.BinaryTree(test.input).String()

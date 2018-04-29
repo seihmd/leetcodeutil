@@ -61,19 +61,37 @@ func BinaryTree(input string) *TreeNode {
 	return m[0]
 }
 
-func (t *TreeNode) String() string {
-	nilVal := fmt.Sprint(nil)
-	if t == nil {
-		return nilVal
+func (root *TreeNode) String() string {
+	if root == nil {
+		return "[]"
 	}
-	l, r := nilVal, nilVal
-	if t.Left != nil {
-		l = strconv.Itoa(t.Left.Val)
+	vals := []string{}
+	walk(root, 0, &vals)
+	s := strings.Join(vals, ",")
+	s = strings.TrimRight(s, ",")
+	for {
+		if strings.Contains(s, ",,") {
+			s = strings.Replace(s, ",,", ",null,", -1)
+		} else {
+			break
+		}
 	}
-	if t.Right != nil {
-		r = strconv.Itoa(t.Right.Val)
+	return "[" + s + "]"
+}
+
+func walk(n *TreeNode, i int, vals *[]string) {
+	if n == nil {
+		return
 	}
-	return fmt.Sprintf("Val: %d, Left: %s, Right: %s", t.Val, l, r)
+	li := i*2 + 1
+	ri := i*2 + 2
+	if len(*vals)-1 < ri {
+		emp := make([]string, ri-len(*vals))
+		*vals = append(*vals, emp...)
+	}
+	(*vals)[i] = strconv.Itoa(n.Val)
+	walk(n.Left, li, vals)
+	walk(n.Right, ri, vals)
 }
 
 // Print outputs *TreeNode.String()
