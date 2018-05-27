@@ -2,9 +2,14 @@ package leetcodeutil
 
 import (
 	"fmt"
+	"regexp"
 	"strconv"
 	"strings"
 )
+
+const listNodePattern = `-?[0-9]+`
+
+var linkedListInputPattern = regexp.MustCompile(`^\[(` + listNodePattern + `)?(,` + listNodePattern + `)*?\]$`)
 
 // ListNode struct
 type ListNode struct {
@@ -13,27 +18,34 @@ type ListNode struct {
 }
 
 // LinkedList generates *ListNode
-func LinkedList(vals []int) *ListNode {
-	if len(vals) == 0 {
+func LinkedList(input string) *ListNode {
+	if !linkedListInputPattern.MatchString(input) {
+		panic("invalid input")
+	}
+
+	input = strings.TrimPrefix(input, "[")
+	input = strings.TrimSuffix(input, "]")
+	if len(input) == 0 {
 		return nil
 	}
-	root := &ListNode{
-		Val: vals[0],
-	}
-	current := root
-	for i := 1; i < len(vals); i++ {
+	vals := strings.Split(input, ",")
+
+	dummyHead := &ListNode{}
+	current := dummyHead
+	for _, val := range vals {
+		n, _ := strconv.Atoi(val)
 		next := &ListNode{
-			Val: vals[i],
+			Val: n,
 		}
 		current.Next = next
 		current = next
 	}
-	return root
+	return dummyHead.Next
 }
 
 func (ln *ListNode) String() (r string) {
 	if ln == nil {
-		return fmt.Sprint(nil)
+		return "[]"
 	}
 	c := ln
 	for c != nil {
@@ -41,6 +53,7 @@ func (ln *ListNode) String() (r string) {
 		c = c.Next
 	}
 	r = strings.TrimSuffix(r, " ")
+	r = "[" + r + "]"
 	return
 }
 

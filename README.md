@@ -7,16 +7,16 @@ Go util for Leetcode problems
 import . "github.com/seihmd/leetcodeutil"
 
 // solve problems!
-func problemTakeTreeNode(t *TreeNode) {}
-func problemTakeListNode(l *ListNode) {}
-func problemTakeMatrix(m [][]int) {}
-func problemTakeIntervals(i []Interval) {}
+func problemTakesTreeNode(t *TreeNode) {}
+func problemTakesListNode(l *ListNode) {}
+func problemTakesMatrix(m [][]int) {}
+func problemTakesIntervals(i []Interval) {}
 
 func main() {
-    problemTakeTreeNode(BinaryTree("[1,2,3,null,5]"))
-    problemTakeListNode(LinkedList([]int{1,2,3,4,5}))
-    problemTakeMatrix(Matrix("[[1,2,3],[4,5,6],[7,8,9]]"))
-    problemTakeIntervals(Intervals("[[1,2],[5,6],[8,9]]"))
+    problemTakesTreeNode(BinaryTree("[1,2,3,null,5]"))
+    problemTakesListNode(LinkedList("[1,2,3,4,5]"))
+    problemTakesMatrix(Matrix("[[1,2,3],[4,5,6],[7,8,9]]"))
+    problemTakesIntervals(Intervals("[[1,2],[5,6],[8,9]]"))
 }
 ```
 

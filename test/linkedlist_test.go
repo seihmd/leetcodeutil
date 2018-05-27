@@ -6,25 +6,14 @@ import (
 	"github.com/seihmd/leetcodeutil"
 )
 
-func TestEmptyLinkedList(t *testing.T) {
-	l := leetcodeutil.LinkedList(nil)
-	if l != nil {
-		t.Error("LinkedList should be nil")
-	}
-}
-
 func TestLinkedList(t *testing.T) {
-	l := leetcodeutil.LinkedList([]int{1, 2, 3})
+	l := leetcodeutil.LinkedList("[1,2,3]")
 
 	type testdata struct {
 		listnode *leetcodeutil.ListNode
 		expect   int
 	}
-	tests := []testdata{
-		{l, 1},
-		{l.Next, 2},
-		{l.Next.Next, 3},
-	}
+	tests := []testdata{{l, 1}, {l.Next, 2}, {l.Next.Next, 3}}
 
 	for i, test := range tests {
 		if test.listnode.Val != test.expect {
@@ -33,16 +22,28 @@ func TestLinkedList(t *testing.T) {
 	}
 }
 
-func TestEmptyLinkedListString(t *testing.T) {
-	l := leetcodeutil.LinkedList(nil)
-	if l.String() != "<nil>" {
-		t.Fail()
+func TestEmptyLinkedList(t *testing.T) {
+	l := leetcodeutil.LinkedList("[]")
+	if l != nil {
+		t.Error("LinkedList should be nil")
 	}
 }
 
-func TestListNodeString(t *testing.T) {
-	l := leetcodeutil.LinkedList([]int{1, 2, 3})
-	if l.String() != "1 2 3" {
-		t.Errorf("LinkedList.String expects '1 2 3', actual '%s'", l.String())
+func TestLinkedListString(t *testing.T) {
+	type testdata struct {
+		input  string
+		expect string
+	}
+	tests := []testdata{
+		testdata{"[]", "[]"},
+		testdata{"[1]", "[1]"},
+		testdata{"[1,2,3]", "[1 2 3]"},
+		testdata{"[-1,-2,-3]", "[-1 -2 -3]"},
+	}
+	for _, test := range tests {
+		l := leetcodeutil.LinkedList(test.input)
+		if l.String() != test.expect {
+			t.Errorf("LinkedList.String expects '%s', actual '%s'", test.expect, l.String())
+		}
 	}
 }
