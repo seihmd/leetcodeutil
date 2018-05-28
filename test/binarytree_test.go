@@ -18,7 +18,7 @@ func TestBinaryTree(t *testing.T) {
 		[]int{tn.Right.Right.Val, -4},
 		[]int{tn.Left.Left.Left.Val, 7},
 		[]int{tn.Left.Left.Right.Val, 2},
-		[]int{tn.Right.Left.Left.Val, 1},
+		[]int{tn.Right.Right.Left.Val, 1},
 	}
 
 	for _, test := range tests {
@@ -26,8 +26,17 @@ func TestBinaryTree(t *testing.T) {
 			t.Errorf("TreeNode Val expect: %d, actual: %d", test[1], test[0])
 		}
 	}
-	if tn.Left.Right != nil || tn.Right.Left.Right != nil {
-		t.Error("node should be nil")
+
+	nilNodes := []*leetcodeutil.TreeNode{
+		tn.Left.Right,
+		tn.Right.Left.Left,
+		tn.Right.Left.Right,
+		tn.Right.Right.Right,
+	}
+	for i, nilNode := range nilNodes {
+		if nilNode != nil {
+			t.Errorf("%dth test should be nil", i)
+		}
 	}
 }
 
@@ -43,13 +52,6 @@ func TestEmptyBinaryTree(t *testing.T) {
 	}
 }
 
-func TestInvalidBinaryTreeInput(t *testing.T) {
-	tests := []string{"", "[", "]", "[[]", "[]]", "[null,1]", "[1,null,1,1]"}
-	for _, test := range tests {
-		failIfBinaryTreeNoPanic(test, t)
-	}
-}
-
 func TestString(t *testing.T) {
 	type testdata struct {
 		input  string
@@ -58,6 +60,8 @@ func TestString(t *testing.T) {
 	tests := []testdata{
 		testdata{"[]", "[]"},
 		testdata{"[null]", "[]"},
+		testdata{"[1,2,null,3]", "[1,2,null,3]"},
+		testdata{"[1,null,2,null,3]", "[1,null,2,null,3]"},
 		testdata{"[1]", "[1]"},
 		testdata{"[1,2,3]", "[1,2,3]"},
 		testdata{"[1,2,3,null]", "[1,2,3]"},
@@ -67,8 +71,15 @@ func TestString(t *testing.T) {
 	for _, test := range tests {
 		actual := leetcodeutil.BinaryTree(test.input).String()
 		if actual != test.expect {
-			t.Errorf("String expect: %s, actual: %s", test.expect, actual)
+			t.Errorf("\nString expect: %s,\n actual: %s", test.expect, actual)
 		}
+	}
+}
+
+func TestInvalidBinaryTreeInput(t *testing.T) {
+	tests := []string{"", "[", "]", "[[]", "[]]", "[null,1]"}
+	for _, test := range tests {
+		failIfBinaryTreeNoPanic(test, t)
 	}
 }
 

@@ -30,68 +30,69 @@ func BinaryTree(input string) *TreeNode {
 	}
 	vals := strings.Split(input, ",")
 
-	m := make([]*TreeNode, len(vals))
+	dummyRoot := &TreeNode{}
+	queue := []*TreeNode{dummyRoot}
 	for i, val := range vals {
-		var tn *TreeNode
-		if val != "null" {
-			intVal, _ := strconv.Atoi(vals[i])
-			tn = &TreeNode{
-				Val: intVal,
-			}
+		node := queue[0]
+		if i%2 == 0 {
+			queue = queue[1:]
 		}
-		m[i] = tn
-		if i == 0 {
+		if val == "null" {
 			continue
-		} else if tn == nil {
-			continue
-		} else if i%2 == 0 {
-			parent := m[(i-2)/2]
-			if parent == nil {
-				panic(fmt.Sprintf("parent of %dth node is nil", i))
-			}
-			parent.Right = tn
+		}
+
+		n, _ := strconv.Atoi(val)
+		child := &TreeNode{Val: n}
+		if i%2 != 0 {
+			node.Left = child
 		} else {
-			parent := m[(i-1)/2]
-			if parent == nil {
-				panic(fmt.Sprintf("parent of %dth node is nil", i))
-			}
-			parent.Left = tn
+			node.Right = child
 		}
+		queue = append(queue, child)
 	}
-	return m[0]
+	return dummyRoot.Right
 }
 
-func (root *TreeNode) String() string {
-	if root == nil {
+func (t *TreeNode) String() string {
+	if t == nil {
 		return "[]"
 	}
 	vals := []string{}
-	walk(root, 0, &vals)
-	s := strings.Join(vals, ",")
-	s = strings.TrimRight(s, ",")
-	for {
-		if strings.Contains(s, ",,") {
-			s = strings.Replace(s, ",,", ",null,", -1)
-		} else {
+	dummyRoot := &TreeNode{Right: t}
+	queue := []*TreeNode{dummyRoot}
+	notNilCnt := 1
+	for len(queue) > 0 {
+		node := queue[0]
+		queue = queue[1:]
+		if node != nil {
+			notNilCnt--
+		}
+
+		vals = append(vals, node.toStr())
+		if node == nil {
+			continue
+		}
+		if node.Left != nil {
+			notNilCnt++
+		}
+		if node.Right != nil {
+			notNilCnt++
+		}
+		if notNilCnt == 0 {
 			break
 		}
+		queue = append(queue, node.Left)
+		queue = append(queue, node.Right)
 	}
-	return "[" + s + "]"
+
+	return "[" + strings.Join(vals[2:], ",") + "]"
 }
 
-func walk(n *TreeNode, i int, vals *[]string) {
-	if n == nil {
-		return
+func (t *TreeNode) toStr() string {
+	if t == nil {
+		return "null"
 	}
-	li := i*2 + 1
-	ri := i*2 + 2
-	if len(*vals)-1 < ri {
-		emp := make([]string, ri-len(*vals))
-		*vals = append(*vals, emp...)
-	}
-	(*vals)[i] = strconv.Itoa(n.Val)
-	walk(n.Left, li, vals)
-	walk(n.Right, ri, vals)
+	return strconv.Itoa(t.Val)
 }
 
 // Print outputs *TreeNode.String()
