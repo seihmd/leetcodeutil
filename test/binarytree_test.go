@@ -3,50 +3,64 @@ package test
 import (
 	"testing"
 
-	"github.com/seihmd/leetcodeutil"
+	. "github.com/seihmd/leetcodeutil"
 )
 
 func TestBinaryTree(t *testing.T) {
-	tn := leetcodeutil.BinaryTree("[-5,4,8,-11,null,13,-4,7,2,null,null,1]")
-
-	tests := [][]int{
-		[]int{tn.Val, -5},
-		[]int{tn.Left.Val, 4},
-		[]int{tn.Right.Val, 8},
-		[]int{tn.Left.Left.Val, -11},
-		[]int{tn.Right.Left.Val, 13},
-		[]int{tn.Right.Right.Val, -4},
-		[]int{tn.Left.Left.Left.Val, 7},
-		[]int{tn.Left.Left.Right.Val, 2},
-		[]int{tn.Right.Right.Left.Val, 1},
+	type testdata struct {
+		tn      *TreeNode
+		compare *TreeNode
 	}
 
-	for _, test := range tests {
-		if test[0] != test[1] {
-			t.Errorf("TreeNode Val expect: %d, actual: %d", test[1], test[0])
-		}
+	tests := []testdata{
+		testdata{BinaryTree("[]"), nil},
+		testdata{BinaryTree("[null]"), nil},
+		testdata{BinaryTree("[1]"), &TreeNode{Val: 1, Left: nil, Right: nil}},
+		testdata{BinaryTree("[1,null,2,null,3]"), &TreeNode{Val: 1, Left: nil, Right: &TreeNode{Val: 2, Left: nil, Right: &TreeNode{Val: 3, Left: nil, Right: nil}}}},
+		testdata{BinaryTree("[1,2,null,3]"), &TreeNode{Val: 1, Left: &TreeNode{Val: 2, Left: &TreeNode{Val: 3, Left: nil, Right: nil}, Right: nil}, Right: nil}},
+		testdata{BinaryTree("[-5,4,8,-11,null,13,-4,7,2,null,null,1]"), &TreeNode{Val: -5,
+			Left: &TreeNode{Val: 4,
+				Left: &TreeNode{Val: -11,
+					Left:  &TreeNode{Val: 7, Left: nil, Right: nil},
+					Right: &TreeNode{Val: 2, Left: nil, Right: nil},
+				},
+				Right: nil,
+			},
+			Right: &TreeNode{Val: 8,
+				Left: &TreeNode{Val: 13, Left: nil, Right: nil},
+				Right: &TreeNode{Val: -4,
+					Left:  &TreeNode{Val: 1, Left: nil, Right: nil},
+					Right: nil,
+				},
+			},
+		}},
 	}
 
-	nilNodes := []*leetcodeutil.TreeNode{
-		tn.Left.Right,
-		tn.Right.Left.Left,
-		tn.Right.Left.Right,
-		tn.Right.Right.Right,
-	}
-	for i, nilNode := range nilNodes {
-		if nilNode != nil {
-			t.Errorf("%dth test should be nil", i)
+	for i, test := range tests {
+		if !isSame(test.tn, test.compare) {
+			t.Errorf("%dth test failed", i)
 		}
 	}
 }
 
+func isSame(tn *TreeNode, compare *TreeNode) bool {
+	if tn == nil || compare == nil {
+		return tn == nil && compare == nil
+	}
+	if tn.Val != compare.Val {
+		return false
+	}
+	return isSame(tn.Left, compare.Left) &&
+		isSame(tn.Right, compare.Right)
+}
+
 func TestEmptyBinaryTree(t *testing.T) {
-	tn := leetcodeutil.BinaryTree("[]")
+	tn := BinaryTree("[]")
 	if tn != nil {
 		t.Error("TreeNode should be nil")
 	}
 
-	tn = leetcodeutil.BinaryTree("[null]")
+	tn = BinaryTree("[null]")
 	if tn != nil {
 		t.Error("*TreeNode should be nil")
 	}
@@ -63,13 +77,15 @@ func TestString(t *testing.T) {
 		testdata{"[1,2,null,3]", "[1,2,null,3]"},
 		testdata{"[1,null,2,null,3]", "[1,null,2,null,3]"},
 		testdata{"[1]", "[1]"},
+		testdata{"[-1]", "[-1]"},
+		testdata{"[-1,null]", "[-1]"},
 		testdata{"[1,2,3]", "[1,2,3]"},
 		testdata{"[1,2,3,null]", "[1,2,3]"},
 		testdata{"[-1,2,-3]", "[-1,2,-3]"},
 		testdata{"[5,4,8,11,null,13,4,7,2,null,null,1]", "[5,4,8,11,null,13,4,7,2,null,null,1]"},
 	}
 	for _, test := range tests {
-		actual := leetcodeutil.BinaryTree(test.input).String()
+		actual := BinaryTree(test.input).String()
 		if actual != test.expect {
 			t.Errorf("\nString expect: %s,\n actual: %s", test.expect, actual)
 		}
@@ -77,7 +93,7 @@ func TestString(t *testing.T) {
 }
 
 func TestInvalidBinaryTreeInput(t *testing.T) {
-	tests := []string{"", "[", "]", "[[]", "[]]", "[null,1]"}
+	tests := []string{"", "[", "]", "[[]", "[]]", "[null,1]", "[1,null,null,null]"}
 	for _, test := range tests {
 		failIfBinaryTreeNoPanic(test, t)
 	}
@@ -89,5 +105,5 @@ func failIfBinaryTreeNoPanic(s string, t *testing.T) {
 			t.Fail()
 		}
 	}()
-	leetcodeutil.BinaryTree(s)
+	BinaryTree(s)
 }
