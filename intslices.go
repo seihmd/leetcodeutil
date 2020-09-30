@@ -5,7 +5,7 @@ import (
 )
 
 func IntSlices(input string) [][]int {
-	if !matrixInputPat.MatchString(input) {
+	if !matrixInputRegexp.MatchString(input) {
 		panic("invalid input")
 	}
 

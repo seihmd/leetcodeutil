@@ -7,11 +7,14 @@ import (
 )
 
 var matrixRowPat = `\[(-?[0-9]+((,-?[0-9]+)+)?)?\]`
-var matrixInputPat = regexp.MustCompile(`^\[(` + matrixRowPat + `)?(,` + matrixRowPat + `)*?\]$`)
+var matrixInputPat = `^\[(` + matrixRowPat + `)?(,` + matrixRowPat + `)*?\]$`
+
+var matrixRowRegexp = regexp.MustCompile(matrixRowPat)
+var matrixInputRegexp = regexp.MustCompile(matrixInputPat)
 
 // Matrix generates [][]int from string like "[[1,2,3],[4,5,6]]"
 func Matrix(input string) [][]int {
-	if !matrixInputPat.MatchString(input) {
+	if !matrixInputRegexp.MatchString(input) {
 		panic("invalid input")
 	}
 
